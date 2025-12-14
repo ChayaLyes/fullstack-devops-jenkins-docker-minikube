@@ -1,0 +1,39 @@
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+
+# Java
+*.class
+*.jar
+*.war
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Ansible
+*.retry
+
+# Secrets
+*.pem
+*.key
+credentials.yml
+kubeconfig
+
+# Docker
+.dockerignore
+
+# Logs
+*.log
+
+# Minikube
+.minikube/
