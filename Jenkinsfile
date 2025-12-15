@@ -7,7 +7,7 @@ pipeline {
     
     environment {
         APP_NAME = 'java-maven-app'
-        DOCKER_HUB_USERNAME = 'ilyes chaya'  // À REMPLACER
+        DOCKER_HUB_USERNAME = 'ChayaLyes'  // À REMPLACER
         DOCKER_REPO = "${DOCKER_HUB_USERNAME}/${APP_NAME}"
         DOCKER_REPO_SERVER = 'docker.io'
     }
