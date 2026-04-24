@@ -7,7 +7,7 @@ pipeline {
     
     environment {
         APP_NAME = 'java-maven-app'
-        DOCKER_HUB_USERNAME = 'ChayaLyes'  // À REMPLACER
+        DOCKER_HUB_USERNAME = 'chayalyes'
         DOCKER_REPO = "${DOCKER_HUB_USERNAME}/${APP_NAME}"
         DOCKER_REPO_SERVER = 'docker.io'
     }
@@ -31,7 +31,7 @@ pipeline {
                         -DnewVersion=\\${parsedVersion.majorVersion}.\\${parsedVersion.minorVersion}.\\${parsedVersion.nextIncrementalVersion} \
                         versions:commit
                     '''
-                    def matcher = readFile('pom.xml') =~ '<version>(.+)</version>'
+                    def matcher = readFile('pom.xml') =~ '<version>([0-9]+\\.[0-9]+\\.[0-9]+)</version>'
                     def version = matcher[0][1]
                     env.IMAGE_NAME = "${version}-${BUILD_NUMBER}"
                     echo "📦 New version: ${env.IMAGE_NAME}"
@@ -130,7 +130,7 @@ pipeline {
                             git config user.email "jenkins@ci.local"
                             git add pom.xml
                             git commit -m "ci: version bump to ${env.IMAGE_NAME} [skip ci]" || echo "No changes to commit"
-                            git push https://${USER}:${PASS}@github.com/ChayaLyes/fullstack-devops-jenkins-docker-minikube.git HEAD:main || echo "Push failed"
+                            git push https://${USER}:${PASS}@github.com/chayalyes/fullstack-devops-jenkins-docker-minikube.git HEAD:main || echo "Push failed"
                         """
                     }
                 }
