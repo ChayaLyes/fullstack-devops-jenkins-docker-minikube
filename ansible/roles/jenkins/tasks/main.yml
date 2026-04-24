@@ -1,0 +1,30 @@
+---
+- name: Create Jenkins home directory
+  file:
+    path: "{{ jenkins_home }}"
+    state: directory
+    mode: '0755'
+
+- name: Deploy docker-compose.yml for Jenkins
+  template:
+    src: docker-compose.yml.j2
+    dest: "{{ jenkins_home }}/docker-compose.yml"
+    mode: '0644'
+
+- name: Start Jenkins with Docker Compose
+  community.docker.docker_compose_v2:
+    project_src: "{{ jenkins_home }}"
+    state: present
+
+- name: Wait for Jenkins to be ready
+  uri:
+    url: "http://localhost:{{ jenkins_port }}/login"
+    status_code: 200
+  retries: 30
+  delay: 10
+  register: jenkins_status
+  until: jenkins_status.status == 200
+
+- name: Display Jenkins URL
+  debug:
+    msg: "Jenkins disponible sur http://{{ ansible_host }}:{{ jenkins_port }}"

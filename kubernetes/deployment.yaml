@@ -29,20 +29,21 @@ spec:
           limits:
             memory: "512Mi"
             cpu: "500m"
+        # Spring Boot Actuator — sondes HTTP fiables
         livenessProbe:
-          exec:
-            command:
-            - pgrep
-            - java
+          httpGet:
+            path: /actuator/health
+            port: 8080
           initialDelaySeconds: 30
           periodSeconds: 10
+          failureThreshold: 3
         readinessProbe:
-          exec:
-            command:
-            - pgrep
-            - java
-          initialDelaySeconds: 10
+          httpGet:
+            path: /actuator/health
+            port: 8080
+          initialDelaySeconds: 15
           periodSeconds: 5
+          failureThreshold: 3
 ---
 apiVersion: v1
 kind: Service

@@ -1,26 +1,39 @@
 package com.example.app;
 
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.web.servlet.MockMvc;
 
-/**
- * Unit test for App
- */
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+@SpringBootTest
+@AutoConfigureMockMvc
 public class AppTest {
-    
+
+    @Autowired
+    private MockMvc mockMvc;
+
     @Test
-    public void testGetGreeting() {
-        App app = new App();
-        String greeting = app.getGreeting();
-        
-        assertNotNull(greeting, "Greeting should not be null");
-        assertTrue(greeting.contains("Hello"), "Greeting should contain 'Hello'");
-        assertTrue(greeting.contains("Java Maven App"), "Greeting should contain app name");
+    public void testHomeEndpoint() throws Exception {
+        mockMvc.perform(get("/"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.app").value("java-maven-app"))
+            .andExpect(jsonPath("$.status").value("running"));
     }
-    
+
     @Test
-    public void testAppNotNull() {
-        App app = new App();
-        assertNotNull(app, "App instance should not be null");
+    public void testActuatorHealth() throws Exception {
+        mockMvc.perform(get("/actuator/health"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.status").value("UP"));
+    }
+
+    @Test
+    public void testPrometheusEndpoint() throws Exception {
+        mockMvc.perform(get("/actuator/prometheus"))
+            .andExpect(status().isOk());
     }
 }

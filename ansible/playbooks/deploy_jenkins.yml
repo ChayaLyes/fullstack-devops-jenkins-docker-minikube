@@ -1,0 +1,9 @@
+---
+- name: Deploy Jenkins on DigitalOcean Server
+  hosts: jenkins_server
+  become: true
+  gather_facts: true
+
+  roles:
+    - docker
+    - jenkins

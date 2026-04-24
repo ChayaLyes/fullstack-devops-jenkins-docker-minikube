@@ -1,0 +1,14 @@
+services:
+  jenkins:
+    image: jenkins/jenkins:lts-jdk17
+    container_name: jenkins
+    restart: unless-stopped
+    user: root
+    ports:
+      - "{{ jenkins_port }}:8080"
+      - "{{ jenkins_agent_port }}:50000"
+    volumes:
+      - {{ jenkins_home }}/data:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      JAVA_OPTS: "-Xmx1024m -Djenkins.install.runSetupWizard=false"
