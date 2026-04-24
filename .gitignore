@@ -29,8 +29,8 @@ Thumbs.db
 credentials.yml
 kubeconfig
 
-# Docker
-.dockerignore
+# Ansible generated files
+ansible/group_vars/jenkins_server.yml
 
 # Logs
 *.log

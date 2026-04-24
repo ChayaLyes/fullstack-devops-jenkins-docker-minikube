@@ -1,0 +1,15 @@
+# Ne garder que le JAR pré-construit par Jenkins
+src/
+ansible/
+docker/
+kubernetes/
+scripts/
+.git/
+.gitignore
+Jenkinsfile
+pom.xml
+*.md
+
+# Exclure tout sauf target/*.jar
+target/*
+!target/java-maven-app-*.jar

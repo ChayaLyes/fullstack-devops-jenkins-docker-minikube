@@ -1,6 +1,12 @@
 pipeline {
     agent any
 
+    options {
+        timeout(time: 30, unit: 'MINUTES')
+        disableConcurrentBuilds()
+        buildDiscarder(logRotator(numToKeepStr: '10'))
+    }
+
     tools {
         maven 'maven-3.9'
     }
@@ -90,6 +96,7 @@ pipeline {
                         export IMAGE_NAME=${IMAGE_NAME}
                         envsubst < kubernetes/deployment.yaml | kubectl apply -f -
                     """
+                    sh 'kubectl apply -f kubernetes/hpa.yaml'
                 }
             }
         }
